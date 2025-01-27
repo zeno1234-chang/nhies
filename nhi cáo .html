@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 90vh;
+            background: url('image.png') no-repeat center center/cover;
+            background-color: #000;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        .new-year-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px; /* Tăng khoảng cách giữa các phần tử */
+            margin-top: 3%; /* Giảm khoảng cách từ trên xuống */
+        }
+
+        h1 {
+            font-size: 4rem; /* Giảm cỡ chữ để tạo sự hài hòa */
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            margin: 0; /* Xóa khoảng cách mặc định */
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+
+        .couplet {
+            font-size: 1.8rem; /* Điều chỉnh cỡ chữ */
+            writing-mode: vertical-rl; /* Hiển thị dọc */
+            text-align: center;
+            color: #FFD700; /* Màu vàng nổi bật */
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            margin: 0; /* Xóa khoảng cách mặc định */
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        p {
+            font-size: 1.8rem; /* Điều chỉnh cỡ chữ */
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInOut 5s ease-in-out infinite; /* Hiển thị cách nhau 5 giây */
+            opacity: 0;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; transform: translateY(10px); }
+            50% { opacity: 1; transform: translateY(0); }
+        }
+
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: fly 1.5s ease-out forwards;
+        }
+
+        @keyframes fly {
+            0% {
+                transform: scale(0.5) translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) translate(var(--x), var(--y));
+                opacity: 0;
+            }
+        }
+
+        .love-message {
+            font-size: 2.2rem; /* Tăng cỡ chữ */
+            margin-top: 15px;
+            font-weight: bold;
+            color: #ff69b4;
+            display: none; /* Ẩn mặc định */
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            p {
+                font-size: 1.5rem;
+            }
+
+            .couplet {
+                font-size: 1.5rem;
+            }
+
+            .love-message {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="new-year-container">
+        <div class="couplet">Tân niên tấn tài tấn lộc</div>
+        <h1>Happy New Year 🎉🎆</h1>
+        <div class="couplet">Xuân nhật vạn sự vạn thành</div>
+    </div>
+
+    <p id="message"></p>
+
+    <!-- Lời nói yêu em -->
+    <p class="love-message" id="loveMessage1">Yêu em rất nhiều! ❤️</p>
+    <p class="love-message" id="loveMessage2">Không ai khác ngoài em ❤️</p>
+    <p class="love-message" id="loveMessage3">Thế giới này chỉ anh thích em ❤️</p>
+
+    <script>
+        const messages = [
+            "Chúc bạn năm mới an khang thịnh vượng! 🌟",
+            "Năm mới tràn đầy sức khỏe và hạnh phúc! 🎉",
+            "Mọi điều may mắn và thành công sẽ đến với bạn! 🍀",
+            "Chúc bạn và gia đình một năm mới bình an và vui vẻ! ❤️",
+            "Hãy để năm mới mở ra những cơ hội mới và hy vọng mới! ✨",
+            "Thành công sẽ luôn đồng hành cùng bạn trong năm nay! 🏆",
+            "Chúc bạn có một năm thật rực rỡ, làm gì cũng thuận lợi! 💼",
+            "Hạnh phúc, sức khỏe, tài lộc sẽ đến bên bạn! 💰",
+            "Chúc bạn luôn tràn đầy năng lượng và yêu đời! 🌞",
+            "Hãy cười thật tươi, năm mới sẽ thật tuyệt vời! 😄",
+        ];
+
+        const messageElement = document.getElementById('message');
+        let currentIndex = 0;
+
+        function showNextMessage() {
+            messageElement.textContent = messages[currentIndex];
+            currentIndex = (currentIndex + 1) % messages.length;
+        }
+
+        setInterval(showNextMessage, 5000); // Hiển thị cách nhau 5 giây
+        showNextMessage();
+
+        function createFirework() {
+            const centerX = Math.random() * window.innerWidth;
+            const centerY = Math.random() * window.innerHeight;
+
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const angle = (Math.PI * 2) * (i / 20);
+                const distance = Math.random() * 200 + 50;
+
+                particle.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
+                particle.style.setProperty('--y', `${Math.sin(angle) * distance}px`);
+                particle.style.left = `${centerX}px`;
+                particle.style.top = `${centerY}px`;
+
+                document.body.appendChild(particle);
+
+                setTimeout(() => particle.remove(), 1500);
+            }
+        }
+
+        setInterval(createFirework, 800);
+
+        const loveMessages = [
+            document.getElementById('loveMessage1'),
+            document.getElementById('loveMessage2'),
+            document.getElementById('loveMessage3')
+        ];
+
+        let loveIndex = 0;
+
+        function showLoveMessage() {
+            loveMessages.forEach((msg, index) => {
+                msg.style.display = index === loveIndex ? 'block' : 'none';
+            });
+            loveIndex = (loveIndex + 1) % loveMessages.length;
+        }
+
+        setInterval(showLoveMessage, 3000); // Hiển thị cách nhau 3 giây
+        showLoveMessage();
+    </script>
+</body>
+</html>
